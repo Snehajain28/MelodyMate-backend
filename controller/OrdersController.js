@@ -7,15 +7,15 @@ const Order = require('../models/Order')
 exports.AddOrderController = async (req, res) => {
 
    try {
-      const { id, cartData, addId } = req.body;
-      if (!id || !cartData || !addId) {
+      const { id, cartData, addId ,totalAmt} = req.body;
+      if (!id || !cartData || !addId || !totalAmt) {
          return res.json({
             success: false,
             message: "fill all data "
          })
       }
 
-      const newOrder = await Order.create({ address: addId })
+      const newOrder = await Order.create({ address: addId ,amount:totalAmt})
 
       cartData.map(async (data) => {
          const newItem = await Item.create({ image: data.image, price: data.price, title: data.title, quantity: data.quantity })
@@ -82,4 +82,22 @@ exports.OrderController = async (req, res) => {
    catch (e) {
       console.log(e)
    }
+}
+
+
+exports. getAllOrdersController = async (req, res) => {
+
+   try {
+       
+ const data = await Order.find({})
+
+      return res.json({
+         success: true,
+         data,
+      })
+   }
+   catch (e) {
+      console.log(e)
+   }
+
 }

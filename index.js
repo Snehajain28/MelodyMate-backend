@@ -17,16 +17,16 @@ app.use(express.json());
 app.use(cors({
     origin: process.env.Origins,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
+    credentials: true,    
     optionsSuccessStatus: 204,
-}))
+}))       
 
 app.use(`/api/v1/user`, userRoutes)
 app.use(`/api/v1/product`, productRoutes)
 
 app.get('/', (req, res) => {
     res.send("hellooo")
-})
+})                      
 
 app.listen(PORT, () => {
     console.log(`listening ${PORT}`);

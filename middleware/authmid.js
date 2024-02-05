@@ -2,9 +2,10 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/User');
 
 
-exports.auth =(req, res, next) => {
-    try {
-        const token = req.cookies.token || req.body.token || req.header("Authorisation");
+exports.auth = (req, res, next) => {
+   try {
+
+        const token = req.body.token
 
         if (!token) {
             return res.status(401).json({
@@ -15,7 +16,7 @@ exports.auth =(req, res, next) => {
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET)
             req.user = decode;
-             next();
+            next();
         }
         catch (err) {
             return res.status(401).json({
@@ -23,18 +24,20 @@ exports.auth =(req, res, next) => {
                 message: "decoding token error"
             })
         }
-        
+
     }
     catch (err) {
         return res.status(401).json({
             success: false,
-            message: "overall authentication error"
+            message: "overall authentication error",
+            err
         })
     }
 }
 
 
-exports.isAdmin =async (req, res, next) => {
+exports.isAdmin = async (req, res, next) => {
+   
     const user = await User.findById(req.user._id);
     try {
         if (user.role !== 1) {
@@ -44,7 +47,8 @@ exports.isAdmin =async (req, res, next) => {
             })
 
         }
-        next();
+         next();
+       
     }
     catch (err) {
         return res.status(401).json({

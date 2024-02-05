@@ -10,14 +10,21 @@ const OrderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Address",
   },
-  status: {
-    type: String,
-  },
   amount: {
     type: String,
-  }
-
-
+  },
+  orderStatus: {
+    type: String,
+    default:"created"
+  },
+  createdAt: {
+    type: Date,
+    default:Date.now()
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model('Order', OrderSchema);
