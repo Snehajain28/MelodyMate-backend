@@ -6,7 +6,7 @@ const Course = require('../models/Course');
 exports.updateProfile = async (req, res) => {
 
     try {
-        const {dateOfBirth,about,number,dob} = req.body;
+    const {dateOfBirth,about,number,dob} = req.body;
         const userID = req.user.id;
         if (!gender||!about||!number||!dateOfBirth||!userID) {
 

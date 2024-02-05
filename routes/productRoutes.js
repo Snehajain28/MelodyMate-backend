@@ -11,14 +11,16 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, Date.now()+ file.originalname);
   },
+
 });
 
 const upload = multer({ storage: storage });
 
 router.post('/add-product', upload.single("image"),async (req, res) => {
    const {title, description, price, discountedprice} = req.body;
-   const image = req.file.filename
+   const image =req?.file?.filename
 
+   console.log(req.body,req.file)
    if( !title || !description || ! price || ! discountedprice || !image )
    {
     res.json({
