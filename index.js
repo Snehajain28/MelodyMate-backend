@@ -13,13 +13,14 @@ PORT = process.env.PORT || 8000
 const app = express();
 
 app.use(express.json());
+app.use("/images", express.static(__dirname + "/images"));
 
 app.use(cors({
     origin: process.env.Origins,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,    
     optionsSuccessStatus: 204,
-}))       
+}))         
 
 app.use(`/api/v1/user`, userRoutes)
 app.use(`/api/v1/product`, productRoutes)

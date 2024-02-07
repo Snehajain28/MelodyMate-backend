@@ -84,17 +84,9 @@ exports.OrderController = async (req, res) => {
 }
 
 
-exports.getAllOrdersController = async (req, res) => {
+exports.getAllProductController = async (req, res) => {
    try {
-      const data = await Order.find({})
-     
-     for (let i = 0; i < data.length; i++) {
-         let arr = [];
-         for (let j = 0; j < data[i].items.length; j++) {
-            arr.push(await Item.findById({ _id: data[i].items[j] }))
-         }
-         data[i].items = arr;
-      }
+      const data = await Item.find({})
 
       return res.json({
          success: true,

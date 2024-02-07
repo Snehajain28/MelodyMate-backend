@@ -3,10 +3,10 @@ const User = require('../models/User');
 
 
 exports.auth = (req, res, next) => {
-   try {
+
+    try {
 
         const token = req.body.token
-
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -14,14 +14,15 @@ exports.auth = (req, res, next) => {
             })
         }
         try {
-            const decode = jwt.verify(token, process.env.JWT_SECRET)
+            const decode = jwt.verify(token,process.env.JWT_SECRET)
             req.user = decode;
             next();
         }
         catch (err) {
             return res.status(401).json({
                 success: false,
-                message: "decoding token error"
+                message: "decoding token error",
+                err
             })
         }
 
@@ -37,7 +38,6 @@ exports.auth = (req, res, next) => {
 
 
 exports.isAdmin = async (req, res, next) => {
-   
     const user = await User.findById(req.user._id);
     try {
         if (user.role !== 1) {
@@ -47,8 +47,8 @@ exports.isAdmin = async (req, res, next) => {
             })
 
         }
-         next();
-       
+
+        next();
     }
     catch (err) {
         return res.status(401).json({

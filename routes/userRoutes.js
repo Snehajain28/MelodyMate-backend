@@ -5,6 +5,7 @@ const { loginUser } = require('../controller/loginUser');
 const { auth, isAdmin } = require('../middleware/authmid');
 const { AddAddressController, AddressController } = require('../controller/AddressController');
 const { AddOrderController, OrderController, getAllOrdersController } = require('../controller/OrdersController');
+const { getAllProductController } = require('../controller/ProductController');
 const router = express.Router();
 
 router.post("/register", registerUser);
@@ -18,7 +19,9 @@ router.post("/checkout/address", AddressController);
 
 router.post("/create-order", AddOrderController);
 router.post("/orders", OrderController);
+router.post("/all-orders", auth, isAdmin,getAllOrdersController);
 
+router.get("/all_products", getAllProductController);
 
 router.post("/admin-auth", auth, isAdmin, (req, res) => {
   res.status(201).json({
@@ -27,7 +30,6 @@ router.post("/admin-auth", auth, isAdmin, (req, res) => {
 });
 
 
-router.post("/all-orders", auth, isAdmin, getAllOrdersController);
 
 //router.put("/profile", auth, updateProfileController);
 //router.get("/orders", auth, getOrdersController);
