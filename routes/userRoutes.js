@@ -4,7 +4,7 @@ const { registerUser } = require('../controller/registerUser');
 const { loginUser } = require('../controller/loginUser');
 const { auth, isAdmin } = require('../middleware/authmid');
 const { AddAddressController, AddressController } = require('../controller/AddressController');
-const { AddOrderController, OrderController, getAllOrdersController } = require('../controller/OrdersController');
+const { AddOrderController, OrderController, getAllOrdersController, getSingleOrderController } = require('../controller/OrdersController');
 const { getAllProductController } = require('../controller/ProductController');
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.post("/checkout/address", AddressController);
 router.post("/create-order", AddOrderController);
 router.post("/orders", OrderController);
 router.post("/all-orders", auth, isAdmin,getAllOrdersController);
-
+router.post('/order-details',getSingleOrderController)
 router.get("/all_products", getAllProductController);
 
 router.post("/admin-auth", auth, isAdmin, (req, res) => {

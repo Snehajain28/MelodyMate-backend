@@ -44,8 +44,7 @@ exports.OrderController = async (req, res) => {
 
    try {
       const { id } = req.body;
-
-      if (!id) {
+     if (!id) {
          return res.json({
             success: false,
             message: "fill all data "
@@ -75,7 +74,6 @@ exports.OrderController = async (req, res) => {
       return res.json({
          success: true,
          allOrders,
-         allItems,
       })
    }
    catch (e) {
@@ -87,8 +85,8 @@ exports.OrderController = async (req, res) => {
 exports.getAllOrdersController = async (req, res) => {
    try {
       const data = await Order.find({})
-     
-     for (let i = 0; i < data.length; i++) {
+
+      for (let i = 0; i < data.length; i++) {
          let arr = [];
          for (let j = 0; j < data[i].items.length; j++) {
             arr.push(await Item.findById({ _id: data[i].items[j] }))
@@ -96,6 +94,29 @@ exports.getAllOrdersController = async (req, res) => {
          data[i].items = arr;
       }
 
+      return res.json({
+         success: true,
+         data,
+      })
+   }
+   catch (e) {
+      console.log(e)
+   }
+
+}
+
+exports.getSingleOrderController = async (req, res) => {
+
+   const { id } = req.body;
+   try {
+      const data = await Order.findById({ _id: id })
+      data.address = await Address.findById({ _id: data.address })
+
+      let arr = [];
+      for (let j = 0; j < data.items.length; j++) {
+         arr.push(await Item.findById({ _id: data.items[j] }))
+      }
+      data.items = arr;
       return res.json({
          success: true,
          data,
