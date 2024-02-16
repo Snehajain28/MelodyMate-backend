@@ -9,22 +9,21 @@ const mongoose = require('mongoose');
  
   email:{
     type:String,
-    required:true,
-    unique:true,
+  
   },
-  location: {
-    type:String,
-    required:true, 
-  },
+ 
   password:{
     type:String,
-    required:true, 
+  
   },
   phoneNumber: {
     type:String,
-    required:true, 
+  
   },
-
+  token: {
+    type:String,
+  
+  },
   role: {
     type:Number,
     default:0

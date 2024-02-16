@@ -21,7 +21,6 @@ exports.AddAddressController = async (req, res) => {
       const newaddress = await User.findByIdAndUpdate({ _id: user._id },
          { $push: { addresses: add._id } },
          { new: true })
-
       return res.json({
          success: true,
          newaddress
@@ -36,7 +35,7 @@ exports.AddAddressController = async (req, res) => {
 }
 
 exports.AddressController = async (req, res) => {
-
+console.log(req.body)
    try {
       const { email } = req.body;
 
@@ -46,28 +45,27 @@ exports.AddressController = async (req, res) => {
             message: "fill all data "
          })
       }
-
-
       const user = await User.findOne({ email })
 
       let temp = user.addresses.length;
+      console.log(user);
       let allAddress = [];
 
-        for (let i = 0; i < temp; i++) {
-            const id = user.addresses[i];
-            const data = await Address.findById({ _id: id })
-            allAddress.push(data)
+      for (let i = 0; i < temp; i++) {
+         const id = user.addresses[i];
+         const data = await Address.findById({ _id: id })
+         allAddress.push(data)
 
-         }
-      
-   return res.json({
+      }
+
+      return res.json({
          success: true,
          user,
          allAddress
       })
    }
    catch (e) {
-      console.log("adding address error error")
+      console.log("show error ")
 
    }
 

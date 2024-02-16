@@ -19,7 +19,7 @@ const ItemSchema = new mongoose.Schema({
   brand: {
     type: String
   },
-  tilte: {
+  title: {
     type: String,
   },
   quantity: {

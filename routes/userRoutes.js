@@ -6,11 +6,12 @@ const { auth, isAdmin } = require('../middleware/authmid');
 const { AddAddressController, AddressController } = require('../controller/AddressController');
 const { AddOrderController, OrderController, getAllOrdersController, getSingleOrderController } = require('../controller/OrdersController');
 const { getAllProductController } = require('../controller/ProductController');
+const { forgotPassword } = require('../controller/forgetPassword');
 const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-//router.post("/forgot-password", forgotPasswordController);
+router.post("/forgot-password", forgotPassword);
 
 
 router.post("/checkout/add-address", AddAddressController);
