@@ -18,9 +18,12 @@ exports.AddOrderController = async (req, res) => {
       const newOrder = await Order.create({ address: addId, amount: totalAmt })
 
       cartData.map(async (data) => {
-         const newItem = await Item.create({ image: data.image, price: data.price, title: data.title, quantity: data.quantity, discountedPrice: data.discountedPrice, brand: data.brand })
+         const existItem = await Item.findOne({ image })
+         if (!existItem) {
+           existItem= await Item.create({ image: data.image, price: data.price, title: data.title, quantity: data.quantity, discountedPrice: data.discountedPrice, brand: data.brand })
+         }
          await Order.findByIdAndUpdate({ _id: newOrder._id },
-            { $push: { items: newItem._id } },
+            { $push: { items: existItem._id } },
             { new: true })
       })
 
@@ -44,7 +47,7 @@ exports.OrderController = async (req, res) => {
 
    try {
       const { id } = req.body;
-     if (!id) {
+      if (!id) {
          return res.json({
             success: false,
             message: "fill all data "
