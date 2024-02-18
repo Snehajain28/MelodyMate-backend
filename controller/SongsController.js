@@ -1,42 +1,32 @@
-const Address = require("../models/Address");
-const User = require('../models/User')
-const Item = require('../models/Item')
-const Order = require('../models/Order')
+const Song = require("../models/Song");
 
-
-exports.AddOrderController = async (req, res) => {
-
-   try {
-      const { id, cartData, addId, totalAmt } = req.body;
-      if (!id || !cartData || !addId || !totalAmt) {
+exports.AddSongController = async (req, res) => {
+  try {
+      const { title, imageUrl, audioUrl } = req.body;
+      if (!title || !imageUrl || !audioUrl) {
          return res.json({
             success: false,
             message: "fill all data "
          })
+      }  
+
+      const existSong = await Song.findOne({ imageUrl })
+      if (existSong) {
+         return res.json({
+            success: true,
+           
+         })
       }
-
-      const newOrder = await Order.create({ address: addId, amount: totalAmt })
-
-      cartData.map(async (data) => {
-         const newItem = await Item.create({ image: data.image, price: data.price, title: data.title, quantity: data.quantity, discountedPrice: data.discountedPrice, brand: data.brand })
-         await Order.findByIdAndUpdate({ _id: newOrder._id },
-            { $push: { items: newItem._id } },
-            { new: true })
-      })
-
-      await User.findByIdAndUpdate({ _id: id },
-         { $push: { orders: newOrder._id } },
-         { new: true })
+      const newSong= await Song.create({title:title,audioUrl:audioUrl,imageUrl:imageUrl })
 
       return res.json({
          success: true,
-         newOrder,
+         newSong,
       })
    }
    catch (e) {
       console.log(e)
    }
-
 }
 
 
@@ -84,9 +74,9 @@ exports.OrderController = async (req, res) => {
 }
 
 
-exports.getAllProductController = async (req, res) => {
+exports.getAllSongController = async (req, res) => {
    try {
-      const data = await Item.find({})
+      const data = await Song.find({})
 
       return res.json({
          success: true,
@@ -96,5 +86,4 @@ exports.getAllProductController = async (req, res) => {
    catch (e) {
       console.log(e)
    }
-
 }

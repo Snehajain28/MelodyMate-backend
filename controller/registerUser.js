@@ -7,8 +7,7 @@ exports.registerUser = async (req, res) => {
 
   try {
     const { name, email, phoneNumber, password, token } = req.body;
-
-    let newUser;
+   let newUser;
 
     if (name && email && phoneNumber && password) {
       const existing = await User.findOne({ email });

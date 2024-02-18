@@ -2,7 +2,7 @@
 const express = require('express');
 const dbconnect = require('./config/connection');
 const userRoutes = require('./routes/userRoutes');
-const productRoutes = require('./routes/productRoutes')
+const songRoutes = require('./routes/songRoutes');
 const cors = require('cors');
 
 
@@ -13,7 +13,6 @@ PORT = process.env.PORT || 8000
 const app = express();
 
 app.use(express.json());
-app.use("/images", express.static(__dirname + "/images"));
 
 app.use(cors({
     origin: process.env.Origins,
@@ -23,7 +22,8 @@ app.use(cors({
 }))         
 
 app.use(`/api/v1/user`, userRoutes)
-app.use(`/api/v1/product`, productRoutes)
+app.use(`/api/v1/song`, songRoutes)
+
 
 app.get('/', (req, res) => {
     res.send("hellooo")
